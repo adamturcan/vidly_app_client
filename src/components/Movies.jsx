@@ -8,8 +8,7 @@ import {paginate} from '../utils/paginate'
 import Filtering from '../components/filtering'
 import {NavLink} from 'react-router-dom'
 import { toast } from 'react-toastify';
-
-
+import {getUserData,updateUser} from '../services/userService'
 
 export default class Movies extends Component {
     state = {
@@ -21,7 +20,8 @@ export default class Movies extends Component {
         currentPage: 1,
         currentFilter:"allGenres",
         sort:{path:'title',order:'asc'},
-        count:''
+        count:'',
+        user:''
     };
    
   async componentDidMount(){
@@ -29,7 +29,18 @@ export default class Movies extends Component {
       
       const {data:movies} = await getMovies()
 
-        this.setState({movies,moviesByGenre:movies,genres})
+       try{ const {data:user} = await getUserData()
+        this.setState({user})
+        const {liked} = user
+        liked.forEach(i=>{
+            movies.find(m=>{if(m._id ===i )return m.liked = true}) 
+             this.setState({movies,moviesByGenre:movies,genres})     
+        })}
+        catch(ex){
+            this.setState({movies,moviesByGenre:movies,genres})
+        }
+
+        this.setState({movies,moviesByGenre:movies,genres})  
 
     }
 
@@ -65,11 +76,52 @@ export default class Movies extends Component {
       */
     
     }
-    handleLike=(movie)=>{
-     const movies = [...this.state.movies];
+    handleLike=async (movie)=>{
+    
+        try{
+          
+        const {user} = this.state
+       
+       
+        let liked ;
+
+        let Userliked = user.liked
+        
+        const a = Userliked.find(i=>i === movie._id)
+
+        if(a){liked = true}
+
+
+       
+        
+
+            
+        
+
+
+        const originalMovies = [...this.state.movies]
+        const movies = [...this.state.movies];
+        const index = movies.indexOf(movie);
+        movies[index].liked = !liked;
+        this.setState({movies})
+        
+        liked?user.liked.splice(user.liked.indexOf(movie._id,1)):user.liked.push(movie._id)
+            this.setState({user})
+            
+            await updateUser(user) 
+        
+         
+        }
+         catch(ex){
+             return
+         }
+        
+        
+
+    /*  const movies = [...this.state.movies];
      const index = movies.indexOf(movie);
      movies[index].liked = !movies[index].liked;
-     this.setState({movies})
+     this.setState({movies}) */
     }
     handlePageChange=(page)=>{
 
