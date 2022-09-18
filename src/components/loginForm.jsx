@@ -23,7 +23,7 @@ class LoginForm extends Form {
     } catch (ex) {
       if (ex.response && ex.response.status === 400) {
         const errors = { ...this.state.errors };
-        errors.email = ex.response.data;
+        ex.response.data == "Invalid Password"?errors.password = ex.response.data : errors.email = ex.response.data
         this.setState({ errors });
       }
     }
@@ -35,9 +35,9 @@ class LoginForm extends Form {
 
 
     return (
-      <div>
+      <div >
         <h1 className="m-2">Login</h1>
-        <form onSubmit={this.handleSubmit}>
+        <form onSubmit={this.handleSubmit} >
           {this.renderInput("email", "Email", "email")}
           {this.renderInput("password", "Password", "password")}
           {this.renderButton("Login")}

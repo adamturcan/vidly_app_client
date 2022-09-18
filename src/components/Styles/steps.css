@@ -1,0 +1,17 @@
+.step {
+    height: 15px;
+    width: 15px;
+    margin: 0 2px;
+    background-color: #bbbbbb;
+    border: none;
+    border-radius: 50%;
+    display: inline-block;
+    opacity: 0.8;
+  }
+  .step.active {
+    opacity: 1 ;
+    background-color: #5f5f5f;
+  }
+  .step.finish {
+    background-color: rgb(6, 119, 163);
+  }

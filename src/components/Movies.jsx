@@ -106,12 +106,11 @@ export default class Movies extends Component {
       this.setState({ movies });
 
       liked
-        ? user.liked.splice(user.liked.indexOf(movie._id),1)
+        ? user.liked.splice(user.liked.indexOf(movie._id), 1)
         : user.liked.push(movie._id);
       this.setState({ user });
 
       await updateUser(user);
-     
     } catch (ex) {
       return;
     }
@@ -181,7 +180,7 @@ export default class Movies extends Component {
             />
           </div>
           <div className="col">
-            {user && (
+            {user && user.isAdmin && (
               <NavLink to="/movies/new">
                 <button
                   className="btn btn-primary m-2"
