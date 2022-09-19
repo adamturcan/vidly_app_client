@@ -5,14 +5,19 @@ import Joi from "joi-browser";
 import { getCurrentUser } from "../services/authService";
 import { toast } from "react-toastify";
 import Table from "./table";
-class Profile extends Form {
-  columns = [{ path: "id", label: "id" }];
+import { getRental } from "../services/rentalService";
+import { getMovie, getMovies } from "../services/movieService";
+import Like from "./like";
+import RentalsTable from "./rentalsTable";
+import { getGenres } from "../services/genreService";
 
+class Profile extends Form {
   state = {
     data: { name: "" },
     errors: {},
     rents: [],
     sort: { path: "id", order: "asc" },
+    user: "",
   };
   schema = {
     name: Joi.string().max(30).min(5),
@@ -20,10 +25,14 @@ class Profile extends Form {
 
   async componentDidMount() {
     const { data: user } = await getUserData();
-    console.log(user);
+
     const rents = [];
     for (let rent of user.rented) {
-      rents.push({ id: rent });
+      const { data: rental } = await getRental(rent);
+      const { data: movie } = await getMovie(rental.movie._id);
+      movie.dateOut = rental.dateOut;
+      console.log(movie);
+      rents.push(movie);
     }
     this.setState({ data: { name: user.name }, rents });
   }
@@ -37,6 +46,7 @@ class Profile extends Form {
   handleSort = (sort) => {
     this.setState({ sort });
   };
+  handleLike = async (movie) => {};
 
   render() {
     const user = getCurrentUser();
@@ -54,11 +64,12 @@ class Profile extends Form {
             Apply changes
           </button>
         </h6>
-        <Table
-          data={this.state.rents}
-          columns={this.columns}
-          sortColumn={this.state.sort}
+        <h4 className="m-3">Rents</h4>
+        <RentalsTable
+          movies={this.state.rents}
+          onLike={this.handleLike}
           onSort={this.handleSort}
+          sortColumn={this.state.sort}
         />
       </div>
     );
