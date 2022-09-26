@@ -16,10 +16,10 @@ if you would like to preview or test my app without cloning repo you can easily 
 
 
 How to Use:
- <Movies> - shows a list of all movies in database, to be rented, (user custom like button to point out your favorite movies), when clicking on the movies title, you will be redirected to the movies info or if Admin, you can edit the movie, if you are not logged in you will be redirected to the login page,if Admin you can also delete the movie or add new movie
- <Customers> - shows a list of each customer who ever rented a movie and how many movies they did rent, if Admin, shows a phone number also
- <Rental> - redirects you to a form to rent a movie , if not customer you will be asked to enter a name and phone number
- <Name> - redirects you to your profile page, where you can modify your nickname, view your current rents and also return them, you can allso view all your ever made rents and your favorite movies,
- <Login> - redirects you to a login form page
- <Register> - redirects you to a register form, when register automaticaly logs you in
- <log out> - logs you out
+ Movies - shows a list of all movies in database, to be rented, (user custom like button to point out your favorite movies), when clicking on the movies title, you will be redirected to the movies info or if Admin, you can edit the movie, if you are not logged in you will be redirected to the login page,if Admin you can also delete the movie or add new movie
+ Customers - shows a list of each customer who ever rented a movie and how many movies they did rent, if Admin, shows a phone number also
+ Rental - redirects you to a form to rent a movie , if not customer you will be asked to enter a name and phone number
+ Name - redirects you to your profile page, where you can modify your nickname, view your current rents and also return them, you can allso view all your ever made rents and your favorite movies,
+ Login - redirects you to a login form page
+ Register - redirects you to a register form, when register automaticaly logs you in
+ log out - logs you out
