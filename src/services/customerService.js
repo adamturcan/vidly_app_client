@@ -22,9 +22,8 @@ export function getCustomer(id) {
   }
 }
 
-export function saveCustomer(id, data) {
+export function updateCustomer(id, data) {
   try {
-    console.log(data);
     return http.put(customeIdUrl(id), data);
   } catch (ex) {
     return "not found";

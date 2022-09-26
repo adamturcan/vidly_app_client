@@ -10,7 +10,7 @@ class LoginForm extends Form {
     errors: {},
   };
   schema = {
-    email: Joi.string().required().label("Username").email(),
+    email: Joi.string().required().label("Email").email(),
     password: Joi.string().required().label("Password"),
   };
   doSubmit = async () => {

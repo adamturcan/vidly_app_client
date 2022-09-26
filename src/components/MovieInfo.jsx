@@ -8,7 +8,6 @@ class MovieInfo extends Component {
       genre: "",
       numberInStock: "",
       dailyRentalRate: "",
-      genre: "",
       info: "",
     },
   };

@@ -8,11 +8,12 @@ class RentalsTable extends Component {
     { path: "title", label: "Title" },
     { path: "genre.name", label: "Genre" },
     { path: "dateOut", label: "Date out" },
+    {path: "dateReturned",label:"Date Returned"},
     {
       key: "Return",
       content: (movie) => (
-        <button
-          value={movie._id}
+        movie.dateReturned == undefined && <button
+          value={movie.rentId}
           className="btn btn-info"
           onClick={this.props.onReturn}
         >
@@ -20,6 +21,7 @@ class RentalsTable extends Component {
         </button>
       ),
     },
+  
   ];
 
   render() {
@@ -32,7 +34,7 @@ class RentalsTable extends Component {
         data={movies}
         columns={columns}
         onSort={onSort}
-        sortColumn={this.props.sortColumn}
+        sortColumn={this.props.sort}
       />
     );
   }

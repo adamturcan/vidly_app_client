@@ -29,3 +29,11 @@ export function addRental(data) {
     return "not found";
   }
 }
+
+export function returnRental(rentId) {
+  try {
+    return http.post("/returns", { rentalId: rentId });
+  } catch (ex) {
+    return "not found";
+  }
+}

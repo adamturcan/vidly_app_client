@@ -18,7 +18,7 @@ export default class Movies extends Component {
     genres: [],
     pageSize: 4,
     currentPage: 1,
-    currentFilter: "allGenres",
+    currentFilter: "All Genres",
     sort: { path: "title", order: "asc" },
     count: "",
     user: "",
@@ -126,7 +126,7 @@ export default class Movies extends Component {
 
   handleGenreChange = (genre) => {
     this.setState({ currentFilter: genre, currentPage: 1 });
-    if (genre === "allGenres")
+    if (genre === "All Genres")
       return this.setState({ movies: this.state.moviesByGenre });
     let moviesByGenre = [...this.state.moviesByGenre];
     moviesByGenre = moviesByGenre.filter((m) => m.genre.name === genre);
@@ -172,15 +172,17 @@ export default class Movies extends Component {
         <div className="row">
           <div className="col-2">
             <Filtering
-              onGenreChange={this.handleGenreChange}
+              onFilterChange={this.handleGenreChange}
               currentFilter={this.state.currentFilter}
               items={this.state.genres}
               textProperty="name"
               valueProperty="_id"
+              def="All Genres"
+              label="Genres "
             />
           </div>
-          <div className="col">
-            {user && user.isAdmin && (
+          <div className="col">          
+            {(user && user.isAdmin) && (
               <NavLink to="/movies/new">
                 <button
                   className="btn btn-primary m-2"
@@ -222,7 +224,7 @@ export default class Movies extends Component {
         <div className="row">
           <div className="col-2">
             <Filtering
-              onGenreChange={this.handleGenreChange}
+              onFilterChange={this.handleGenreChange}
               currentFilter={this.state.currentFilter}
               items={this.state.genres}
               textProperty="name"
@@ -233,17 +235,22 @@ export default class Movies extends Component {
             <div className="header">
               <p>
                 there are no{" "}
-                {this.state.currentFilter !== "allGenres"
+                {this.state.currentFilter !== "All Genres"
                   ? this.state.currentFilter
                   : ""}{" "}
                 movies in the database
               </p>
             </div>
-            <NavLink to="/movies/new">
-              <button className="btn btn-primary" onClick={this.handleLink}>
-                New Movie
-              </button>
-            </NavLink>
+            {(user && user.isAdmin) && (
+              <NavLink to="/movies/new">
+                <button
+                  className="btn btn-primary m-2"
+                  onClick={this.handleLink}
+                >
+                  New Movie
+                </button>
+              </NavLink>
+            )}
           </div>
         </div>
       );

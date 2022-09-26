@@ -5,7 +5,7 @@ import Selector from "./Selector";
 import { getMovies } from "./../services/movieService";
 import Joi from "joi-browser";
 import { getUserData, updateUser } from "./../services/userService";
-import { addCustomer } from "../services/customerService";
+import { addCustomer,getCustomer,updateCustomer } from "../services/customerService";
 import { addRental } from "../services/rentalService";
 import { toast } from "react-toastify";
 
@@ -52,6 +52,7 @@ class rentalForm extends Form {
         },
       });
       this.handleSubmit(e);
+      return;
     }
     let { name, phone } = this.state.data;
     console.log(name, phone);
@@ -72,6 +73,7 @@ class rentalForm extends Form {
             name,
             phone,
             isGold: false,
+            rents:[]
           });
           user.isCustomer = true;
           user.customerId = customer._id;
@@ -102,9 +104,19 @@ class rentalForm extends Form {
         customerId: user.customer._id,
         movieId: this.state.data.movie,
       });
-      console.log(rental._id);
-      user.rented = [...user.rented, rental._id];
-      await updateUser(user);
+     
+      const {data:customer} = await getCustomer(user.customer._id);
+      
+      customer.rents = [...customer.rents,rental._id]; 
+      if(customer.rents.length >= 10){
+        customer.isGold = true
+      }
+      
+      user.customerId = customer._id 
+      
+      await updateCustomer(customer._id,{isGold:customer.isGold,name:customer.name,rents:customer.rents,phone:customer.phone})
+      await updateUser(user)
+
       this.props.history.push("/movies");
       toast.success("Movie successfully rented");
     } catch (error) {
